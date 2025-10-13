@@ -25,6 +25,8 @@ Illustrated below, this virtual lab uses Windows Server 2019 as the domain contr
 
 <h2>:clapper: Program walk-through:</h2>
 
+<div align="center">
+
 ## 🧩 Step 1 - Install VirtualBox and Extension Pack  
 Started by downloading and installing Oracle VirtualBox on my host computer. Once installed, added the Extension Pack to enable USB, RDP, and advanced network support.  
 
@@ -107,7 +109,7 @@ No need to assign a Default Gateway since the server will act as it.
 **DNS: 127.0.0.1** (Assigned loopback since we installed AD DS, and the server uses itself)  
 Rename the computer to DC and restart.  
 
-<img width="875" height="647" alt="image" src="https://github.com/user-attachments/assets/4a4fd42d-d176-4549-8a94-95f6ea8bb2d8" />
+<img width="875" height="647" alt="image" src="https://github.com/user-attachments/assets/4d7e0232-0dfb-4fce-a28a-c43351692a32" />
 
 *We can tell which adapter is which based on the preconfigured IP*  
 
@@ -115,7 +117,7 @@ Rename the computer to DC and restart.
 
 <img width="556" height="700" alt="image" src="https://github.com/user-attachments/assets/058b4c59-eafe-4e39-87b8-7de2ba7e7813" />
 
-*Renaming the INTERNAL adapter*  
+*Manually setting INTERNAL adapter ip address*  
 
 <br> 
 
@@ -130,12 +132,13 @@ Opened Server Manager > Add Roles and Features and installed Active Directory Do
 After installation, promoted the server to a Domain Controller by adding a new forest named mydomain.com.  
 Set the Directory Services Restore Mode password (used Password123!).  
 
-<img width="975" height="706" alt="image" src="https://github.com/user-attachments/assets/d98472f8-fe7a-4ac7-8eec-4f3e60f3bac8" />
+<img width="773" height="450" alt="image" src="https://github.com/user-attachments/assets/af2439fb-8365-4a73-ad56-faf4dbe7aabe" />
 
 *Installing AD Domain Services*  
+
 <br> 
 
-<img width="975" height="686" alt="image" src="https://github.com/user-attachments/assets/c535b322-594d-46e3-975f-cb97325ba5f9" />
+<img width="975" height="686" alt="image" src="https://github.com/user-attachments/assets/4444d7d8-c7eb-491d-a44c-1996e4bc24f8" />
 
 *Promoting to Domain Controller by Clicking the yellow flag and setting the domain name*  
 
@@ -186,7 +189,7 @@ Created a new scope using:
 **End IP:** 172.16.0.200  
 **Subnet Mask:** 255.255.255.0  
 **Set the Router Option to 172.16.0.1** (Domain Controller IP), we use this because we configured RAS / NAT on the DC so its job is to forward traffic from client to the internet.  
-Authorized and activated the scope.  
+Finally, authorized and activated the scope.  
 
 <img width="975" height="576" alt="image" src="https://github.com/user-attachments/assets/bd38cbe5-103e-4629-ab58-76010340324a" />
 
@@ -291,3 +294,5 @@ This verified that AD, DHCP, DNS, and NAT are working correctly.
 
 
 *Computer joined to domain and IP leased, able to login with any user in _USERS OU*
+
+</div>
