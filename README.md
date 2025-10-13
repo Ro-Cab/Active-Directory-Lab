@@ -25,159 +25,266 @@ Illustrated below, this virtual lab uses Windows Server 2019 as the domain contr
 
 <h2>:clapper: Program walk-through:</h2>
 
-<p align="center">
-🧩 Step 1 – Install VirtualBox and Extension Pack
-Stared by downloading and installing Oracle VirtualBox on my host computer. Once installed, added the Extension Pack to enable USB, RDP, and advanced network support.
- 
-Showing the Oracle VM an Extension Pack download
-💾 Step 2 – Download Windows ISOs
-Obtained the Windows Server 2019 ISO and Windows 10 ISO from Microsoft’s official evaluation or download site. (Note: For Windows 10, I needed to download the installation media and then choose Windows 10 -> save as ISO) 
-Stored them together in an easy-to-find folder (Desktop) so I could attach them during VM creation.
- Download page for the Windows Server 2019 & Windows Media Creation Tool
+## 🧩 Step 1 - Install VirtualBox and Extension Pack  
+Started by downloading and installing Oracle VirtualBox on my host computer. Once installed, added the Extension Pack to enable USB, RDP, and advanced network support.  
 
-🖥️ Step 3 – Create the Domain Controller VM
-Launched VirtualBox, created a new VM named DC, and used the Windows Server 2019 iso as the image. Made sure to set the OS edition to Desktop Experience or else I would not have a GUI and can only navigate using CLI.
+<img width="975" height="413" alt="image" src="https://github.com/user-attachments/assets/62ca7fd5-5f17-4325-a539-3efd142dbc0a" />
 
-Set the type to “Windows (64-bit)” and assign at least 2 GB of RAM. Left the rest of the settings as is and clicked Finish. 
-I then right-clicked on the VM. Went to Network -> Adapter 1 & Adapter 2 
-•  Adapter 1: NAT (for Internet access)
-•  Adapter 2: Internal Network (for communication with other VMs)
-This configuration allowed my virtual domain to connect internally while still reaching the Internet.
+*Oracle VM and Extension Pack download page*
 
- 
-Setup Options to use
- Enabling Adapter 2 and Setting to Internal Network 
+---
 
-⚡ Step 4 – Install Windows Server 2019 & Guest Additions
-Double-clicked the VM to enter Windows Server 2019 setup.
-Chose “Standard (Desktop Experience)” for a GUI interface.
-Completed the installation and set the Administrator password to Password123! (for lab purposes).
-Logged once setup finished. 
+## 💾 Step 2 - Download Windows ISOs  
+Obtained the Windows Server 2019 ISO and Windows 10 ISO from Microsoft’s official evaluation or download site. (Note: For Windows 10, I needed to download the installation media and then choose Windows 10 -> save as ISO)  
+Stored them together in an easy-to-find folder (Desktop) so I could attach them during VM creation.  
 
- 
-Windows Server 2019 Setup Wizard
- 
-Click Input -> Keyboard -> Ctrl + Alt + Delete to access the login screen
+<img width="975" height="443" alt="image" src="https://github.com/user-attachments/assets/c9ad837e-3fad-4c6c-acd1-5722b534da42" />
 
-🧱 Step 5 – Install Guest Additions
-After the OS booted, inserted Guest Additions from the VirtualBox “Devices” menu.
-Ran the AMD64 installer to improve mouse control, video scaling, and shared clipboard functionality.
-Rebooted when finished for smoother operation.
- 
-🌐 Step 6 – Configure IP Addressing and Rename Server
-Within the VM, opened Network Connections and identified both adapters.
-1. Identified the adapter with the 10.0.2.15 IP address. We can tell that this one is connected to the internet.
-2. We know that the adapter that has the 169.254.122.127 is the Internal NIC because that is an APIPA address. This means that this adapter was searching for a DHCP server to assign an address; however, it was not configured yet, so it was assigned an APIPA address. Renamed to INTERNAL so I’d know it will be used for the internal network.
-For the Internal Network adapter, manually assigned:
-•	IP Address: 172.16.0.1
-•	Subnet Mask: 255.255.255.0
-•	No need to assign a Default Gateway since the server will act as it.
-•	DNS: 127.0.0.1  (Assigned loopback since we installed AD DS, and the server uses itself)
-Rename the computer to DC and restart.
-(Screenshot: Network Adapter Properties window)
- 
-We can tell which adapter is which based on the preconfigured IP
- 
-Renaming the INTERNAL adapter
- 
-Renaming the PC________________________________________
-🏗️ Step 7 – Install Active Directory Domain Services
-Opened Server Manager > Add Roles and Features and installed Active Directory Domain Services (AD DS).
-After installation, promoted the server to a Domain Controller by adding a new forest named mydomain.com.
-Set the Directory Services Restore Mode password (used
- Password123!).
+*Download page for the Windows Server 2019 & Windows Media Creation Tool*  
 
- 
-Installing AD Domain Services
- 
-Promoting to Domain Controller by Clicking the yellow flag and setting the domain name
+---
 
- 	
- 	
-👤Step 8 – Create a Domain Admin Account
-Logged back in as newly created Admin user from prev step.
-Opened Active Directory Users and Computers.
-Created a new Organizational Unit called “MyAdmins.”
-Inside it, created a user (for example, a-rcabral) and set its password to Password123!.
-Added this user to the Domain Admins group.
-Logged out of the Administrator account and log back in using your new domain admin credentials.
- 
-Newly created user and joined Domain Admins
- 
-Signed in using the newly created user________________________________________
+## 🖥️ Step 3 - Create the Domain Controller VM  
+Launched VirtualBox, created a new VM named DC, and used the Windows Server 2019 iso as the image. Made sure to set the OS edition to Desktop Experience or else I would not have a GUI and can only navigate using CLI.  
 
-🔁 Step 9 – Configure NAT and Routing
-Installed the Remote Access role and enable Routing and Remote Access
-Selected Network Address Translation (NAT) and chose the external (NAT) adapter as the public interface.
-This step allows internal network clients to access the Internet through the Domain Controller.
- 
-Installing the Remote Access role 
- 
-Configuring NAT on the INTERNET adapter
-________________________________________
-📡 Step 10 – Set Up DHCP
-Installed the DHCP Server role via Server Manager.
-Created a new scope using:
-•	Start IP: 172.16.0.100
-•	End IP: 172.16.0.200
-•	Subnet Mask: 255.255.255.0
-Set the Router Option to 172.16.0.1 (Domain Controller IP), we use this because we configured RAS / NAT on the DC so its job is to forward traffic from client to the internet
-Authorized and activated the scope.
- 
-DHCP configurations and end result
-________________________________________
-🌎 Step 11 – Enable Internet Access on the Server
-In Server Manager, opened Local Server Properties and disable “Internet Explorer Enhanced Security Configuration.”
-This allowed browsing the internet without continuous pop-ups prompting for confirmation
- 
-Disabling IE Enhanced Security Configuration
-________________________________________
-🧠 Step 12 – Create Users with PowerShell
-Downloaded the provided PowerShell script and extracted it to the Desktop.
-Edited the names.txt file by adding my own name at the top.
-Opened PowerShell ISE as Administrator and ran:
+Set the type to “Windows (64-bit)” and assign at least 2 GB of RAM. Left the rest of the settings as is and clicked Finish.  
+I then right-clicked on the VM. Went to Network -> Adapter 1 & Adapter 2  
+
+- Adapter 1: NAT (for Internet access)  
+- Adapter 2: Internal Network (for communication with other VMs)  
+This configuration allowed my virtual domain to connect internally while still reaching the Internet.  
+
+<img width="975" height="299" alt="image" src="https://github.com/user-attachments/assets/0d67dabf-a174-4887-87fe-a251bd69f85e" />
+
+*Setup Options to use*  
+
+<br> 
+<img width="975" height="566" alt="image" src="https://github.com/user-attachments/assets/c3ef85b4-bf55-4ce3-8288-be6b992699ae" />
+
+*Enabling Adapter 2 and Setting to Internal Network*  
+
+---
+
+## ⚡ Step 4 - Install Windows Server 2019 & Guest Additions  
+Double-clicked the VM to enter Windows Server 2019 setup.  
+Chose “Standard (Desktop Experience)” for a GUI interface.  
+Completed the installation and set the Administrator password to Password123! (for lab purposes).  
+
+Logged once setup finished.  
+
+<img width="666" height="510" alt="image" src="https://github.com/user-attachments/assets/af7257ae-3acc-4feb-95b8-7b8e7aa67121" />
+
+*Windows Server 2019 Setup Wizard*  
+
+<br> 
+
+<img width="520" height="654" alt="image" src="https://github.com/user-attachments/assets/62e32653-2d43-4ec3-9f8e-e774b0365d23" />
+
+*Click Input -> Keyboard -> Ctrl + Alt + Delete to access the login screen*  
+
+---
+
+## 🧱 Step 5 - Install Guest Additions  
+After the OS booted, inserted Guest Additions from the VirtualBox “Devices” menu.  
+Ran the AMD64 installer to improve mouse control, video scaling, and shared clipboard functionality.  
+Rebooted when finished for smoother operation.  
+
+<img width="765" height="437" alt="image" src="https://github.com/user-attachments/assets/5a1d2a1e-234e-4993-aa6d-a013a0fb67d9" />
+
+*Installing guest additions*   
+
+---
+
+## 🌐 Step 6 - Configure IP Addressing and Rename Server  
+Within the VM, opened Network Connections and identified both adapters.  
+1. Identified the adapter with the 10.0.2.15 IP address. We can tell that this one is connected to the internet.  
+2. We know that the adapter that has the 169.254.122.127 is the Internal NIC because that is an APIPA address. This means that this adapter was searching for a DHCP server to assign an address; however, it was not configured yet, so it was assigned an APIPA address. Renamed to INTERNAL so I’d know it will be used for the internal network.  
+
+For the Internal Network adapter, manually assigned:  
+IP Address: 172.16.0.1  
+Subnet Mask: 255.255.255.0  
+No need to assign a Default Gateway since the server will act as it.  
+DNS: 127.0.0.1 (Assigned loopback since we installed AD DS, and the server uses itself)  
+Rename the computer to DC and restart.  
+
+<img width="875" height="647" alt="image" src="https://github.com/user-attachments/assets/4a4fd42d-d176-4549-8a94-95f6ea8bb2d8" />
+*We can tell which adapter is which based on the preconfigured IP*  
+
+<br> 
+
+<img width="556" height="700" alt="image" src="https://github.com/user-attachments/assets/058b4c59-eafe-4e39-87b8-7de2ba7e7813" />
+
+*Renaming the INTERNAL adapter*  
+
+<br> 
+
+<img width="975" height="706" alt="image" src="https://github.com/user-attachments/assets/8e1ca72b-b2c3-458b-881b-545fe7ba1da9" />
+
+*Renaming the PC*  
+
+---
+
+## 🏗️ Step 7 - Install Active Directory Domain Services  
+Opened Server Manager > Add Roles and Features and installed Active Directory Domain Services (AD DS).  
+After installation, promoted the server to a Domain Controller by adding a new forest named mydomain.com.  
+Set the Directory Services Restore Mode password (used Password123!).  
+
+<img width="975" height="706" alt="image" src="https://github.com/user-attachments/assets/d98472f8-fe7a-4ac7-8eec-4f3e60f3bac8" />
+
+*Installing AD Domain Services*  
+<br> 
+
+<img width="975" height="686" alt="image" src="https://github.com/user-attachments/assets/c535b322-594d-46e3-975f-cb97325ba5f9" />
+
+*Promoting to Domain Controller by Clicking the yellow flag and setting the domain name*  
+
+---
+
+## 👤 Step 8 - Create a Domain Admin Account  
+Logged back in as newly created Admin user from prev step.  
+Opened Active Directory Users and Computers.  
+Created a new Organizational Unit called “MyAdmins.”  
+Inside it, created a user (for example, a-rcabral) and set its password to Password123!.  
+Added this user to the Domain Admins group.  
+Logged out of the Administrator account and log back in using your new domain admin credentials.  
+
+<img width="975" height="615" alt="image" src="https://github.com/user-attachments/assets/a5162a49-5c0d-4d9d-a3bd-2abc752e57dc" />
+
+*Newly created user and joined Domain Admins*  
+
+<br>
+
+<img width="975" height="722" alt="image" src="https://github.com/user-attachments/assets/c6c4b4ee-7dca-4e10-b03b-ccc2aa98ef5d" />
+
+*Signed in using the newly created user*  
+
+---
+
+## 🔁 Step 9 - Configure NAT and Routing  
+Installed the Remote Access role and enable Routing and Remote Access.  
+Selected Network Address Translation (NAT) and chose the external (NAT) adapter as the public interface.  
+This step allows internal network clients to access the Internet through the Domain Controller.  
+
+<img width="975" height="500" alt="image" src="https://github.com/user-attachments/assets/92e8e13a-a67a-4127-b61a-eeb1f428b68e" />
+
+*Installing the Remote Access role*  
+
+<br>
+
+<img width="975" height="591" alt="image" src="https://github.com/user-attachments/assets/ba443c91-ca7d-44e0-8c67-69abca310e30" />
+
+*Configuring NAT on the INTERNET adapter*  
+
+
+---
+
+## 📡 Step 10 - Set Up DHCP  
+Installed the DHCP Server role via Server Manager.  
+Created a new scope using:  
+Start IP: 172.16.0.100  
+End IP: 172.16.0.200  
+Subnet Mask: 255.255.255.0  
+Set the Router Option to 172.16.0.1 (Domain Controller IP), we use this because we configured RAS / NAT on the DC so its job is to forward traffic from client to the internet.  
+Authorized and activated the scope.  
+
+<img width="975" height="591" alt="image" src="https://github.com/user-attachments/assets/df78c714-8777-4001-9088-f48d9392ec72" />
+
+*DHCP configurations and end result*  
+
+---
+
+## 🌎 Step 11 - Enable Internet Access on the Server  
+In Server Manager, opened Local Server Properties and disable “Internet Explorer Enhanced Security Configuration.”  
+This allowed browsing the internet without continuous pop-ups prompting for confirmation.  
+
+<img width="975" height="439" alt="image" src="https://github.com/user-attachments/assets/bf0aae21-68d7-431c-ab2b-14c69cd12f61" />
+
+*Disabling IE Enhanced Security Configuration*  
+
+---
+
+## 🧠 Step 12 - Create Users with PowerShell  
+Downloaded the provided PowerShell script and extracted it to the Desktop.  
+Edited the names.txt file by adding my own name at the top.  
+Opened PowerShell ISE as Administrator and ran:  
+powershell
 Set-ExecutionPolicy Unrestricted
-Then opened the script, pointed to the folder location, and executed it.
+hen opened the script, pointed to the folder location, and executed it.
 The script creates 1,000 user accounts automatically inside a new “_Users” OU, each with username format firstinitiallastname and password Password1.
- 
-PowerShell ISE showing script execution)
- 
-New OU and Users have been created
-________________________________________
-🧮 Step 13 – Create the Windows 10 Client VM
+
+<img width="975" height="439" alt="image" src="https://github.com/user-attachments/assets/9469709d-a8b5-46ac-b0ad-5e29e89125c2" />
+
+*PowerShell ISE showing script execution*
+
+<br>
+
+<img width="975" height="437" alt="image" src="https://github.com/user-attachments/assets/82c960b7-4fed-4fcc-b90f-4fa3b3eba942" />
+
+*New OU and Users have been created*
+
+---
+
+## 🧮 Step 13 - Create the Windows 10 Client VM
 Created a new VirtualBox VM named Client1, set OS type to Windows 10 (64-bit), and assign 2–4 GB RAM.
 Attached the Windows 10 ISO, and configure its single network adapter to Internal Network so it connects to the lab’s private network.
- 
-Using Internal Network to get DHCP address from DC
-________________________________________
-💽 Step 14 – Install Windows 10 Pro
+
+<img width="975" height="437" alt="image" src="https://github.com/user-attachments/assets/1e75ac9b-84e9-4006-a6d3-87a6bf6590c9" />
+
+*Using Internal Network to get DHCP address from DC*
+
+---
+
+## 💽 Step 14 - Install Windows 10 Pro
 Booted the VM and installed Windows 10 Pro (not Home, since Home editions can’t join a domain).
 Create a local user called “User” and skip adding a Microsoft account.
 Once installed, verified the client received a DHCP address in the 172.16.0.x range by running ipconfig.
- 
-Command Prompt showing ipconfig output, DFG, DNS, DHCP from DC
- 
-Successful pings indicate proper config
-________________________________________
-🧾 Step 15 – Rename and Join the Domain
+
+<img width="975" height="437" alt="image" src="https://github.com/user-attachments/assets/5c291767-0eb1-40ad-9a8d-f9a91755b94e" />
+
+*Command Prompt showing ipconfig output, DFG, DNS, DHCP from DC*
+
+<br>
+
+<img width="975" height="437" alt="image" src="https://github.com/user-attachments/assets/0897554f-23ed-4f67-8034-9cd5aad263bc" />
+
+
+*Successful pings indicate proper config*
+
+---
+
+## 🧾 Step 15 - Rename and Join the Domain
 Opened System Properties > Computer Name > Change.
 Renamed the machine to Client1 and join the domain mydomain.com.
 Provided domain credentials when prompted (admin or regular domain user).
 Restarted to complete the domain join.
- 
-Domain join confirmation
-________________________________________
-🔐 Step 16 – Log In with a Domain Account
+
+<img width="975" height="734" alt="image" src="https://github.com/user-attachments/assets/c4f6ecb9-8979-46d9-8392-54b170550271" />
+
+*Domain join confirmation*
+
+---
+
+## 🔐 Step 16 - Log In with a Domain Account
 After restart, chose Other User at login.
 Entered one of the new domain usernames (for example rcabral) with the password Password1.
 Successfully signed in and loaded a profile connected to the domain.
 
 This verified that AD, DHCP, DNS, and NAT are working correctly.
- 
-.\ shows PC name
- 
-Successfully able to login with created user
- 
-Computer joined to domain and IP leased, able to login with any user in _USERS OU
 
-</p>
+<img width="975" height="662" alt="image" src="https://github.com/user-attachments/assets/58352dbb-e45b-4614-8f40-a9f920d54f29" />
+
+*.\ shows PC name*
+
+<br>
+
+<img width="975" height="474" alt="image" src="https://github.com/user-attachments/assets/bee8402f-64fa-4f91-b2b0-117309a1a2e8" />
+
+
+*Successfully able to login with created user*
+
+<br>
+
+<img width="975" height="476" alt="image" src="https://github.com/user-attachments/assets/7c26b6a9-8331-4510-b62f-4d3610a3ff89" />
+
+
+*Computer joined to domain and IP leased, able to login with any user in _USERS OU*
