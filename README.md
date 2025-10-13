@@ -50,8 +50,8 @@ Launched VirtualBox, created a new VM named DC, and used the Windows Server 2019
 Set the type to “Windows (64-bit)” and assign at least 2 GB of RAM. Left the rest of the settings as is and clicked Finish.  
 I then right-clicked on the VM. Went to Network -> Adapter 1 & Adapter 2  
 
-- Adapter 1: NAT (for Internet access)  
-- Adapter 2: Internal Network (for communication with other VMs)  
+**- Adapter 1:** NAT (for Internet access)  
+**- Adapter 2:** Internal Network (for communication with other VMs)  
 This configuration allowed my virtual domain to connect internally while still reaching the Internet.  
 
 <img width="975" height="299" alt="image" src="https://github.com/user-attachments/assets/0d67dabf-a174-4887-87fe-a251bd69f85e" />
@@ -67,10 +67,10 @@ This configuration allowed my virtual domain to connect internally while still r
 
 ## ⚡ Step 4 - Install Windows Server 2019 & Guest Additions  
 Double-clicked the VM to enter Windows Server 2019 setup.  
-Chose “Standard (Desktop Experience)” for a GUI interface.  
+Chose **“Standard (Desktop Experience)”** for a GUI interface.  
 Completed the installation and set the Administrator password to Password123! (for lab purposes).  
 
-Logged once setup finished.  
+Logged in once setup finished.  
 
 <img width="666" height="510" alt="image" src="https://github.com/user-attachments/assets/af7257ae-3acc-4feb-95b8-7b8e7aa67121" />
 
@@ -101,13 +101,14 @@ Within the VM, opened Network Connections and identified both adapters.
 2. We know that the adapter that has the 169.254.122.127 is the Internal NIC because that is an APIPA address. This means that this adapter was searching for a DHCP server to assign an address; however, it was not configured yet, so it was assigned an APIPA address. Renamed to INTERNAL so I’d know it will be used for the internal network.  
 
 For the Internal Network adapter, manually assigned:  
-IP Address: 172.16.0.1  
-Subnet Mask: 255.255.255.0  
+**IP Address:** 172.16.0.1  
+**Subnet Mask:** 255.255.255.0  
 No need to assign a Default Gateway since the server will act as it.  
-DNS: 127.0.0.1 (Assigned loopback since we installed AD DS, and the server uses itself)  
+**DNS: 127.0.0.1** (Assigned loopback since we installed AD DS, and the server uses itself)  
 Rename the computer to DC and restart.  
 
 <img width="875" height="647" alt="image" src="https://github.com/user-attachments/assets/4a4fd42d-d176-4549-8a94-95f6ea8bb2d8" />
+
 *We can tell which adapter is which based on the preconfigured IP*  
 
 <br> 
@@ -144,7 +145,7 @@ Set the Directory Services Restore Mode password (used Password123!).
 Logged back in as newly created Admin user from prev step.  
 Opened Active Directory Users and Computers.  
 Created a new Organizational Unit called “MyAdmins.”  
-Inside it, created a user (for example, a-rcabral) and set its password to Password123!.  
+Inside it, created a user (a-rcabral) and set its password to Password123!.  
 Added this user to the Domain Admins group.  
 Logged out of the Administrator account and log back in using your new domain admin credentials.  
 
@@ -181,10 +182,10 @@ This step allows internal network clients to access the Internet through the Dom
 ## 📡 Step 10 - Set Up DHCP  
 Installed the DHCP Server role via Server Manager.  
 Created a new scope using:  
-Start IP: 172.16.0.100  
-End IP: 172.16.0.200  
-Subnet Mask: 255.255.255.0  
-Set the Router Option to 172.16.0.1 (Domain Controller IP), we use this because we configured RAS / NAT on the DC so its job is to forward traffic from client to the internet.  
+**Start IP:** 172.16.0.100  
+**End IP:** 172.16.0.200  
+**Subnet Mask:** 255.255.255.0  
+**Set the Router Option to 172.16.0.1** (Domain Controller IP), we use this because we configured RAS / NAT on the DC so its job is to forward traffic from client to the internet.  
 Authorized and activated the scope.  
 
 <img width="975" height="591" alt="image" src="https://github.com/user-attachments/assets/df78c714-8777-4001-9088-f48d9392ec72" />
@@ -207,9 +208,9 @@ This allowed browsing the internet without continuous pop-ups prompting for conf
 Downloaded the provided PowerShell script and extracted it to the Desktop.  
 Edited the names.txt file by adding my own name at the top.  
 Opened PowerShell ISE as Administrator and ran:  
-powershell
+
 Set-ExecutionPolicy Unrestricted
-hen opened the script, pointed to the folder location, and executed it.
+I then opened the script, pointed to the folder location, and executed it.
 The script creates 1,000 user accounts automatically inside a new “_Users” OU, each with username format firstinitiallastname and password Password1.
 
 <img width="975" height="439" alt="image" src="https://github.com/user-attachments/assets/9469709d-a8b5-46ac-b0ad-5e29e89125c2" />
