@@ -188,7 +188,7 @@ Created a new scope using:
 **Set the Router Option to 172.16.0.1** (Domain Controller IP), we use this because we configured RAS / NAT on the DC so its job is to forward traffic from client to the internet.  
 Authorized and activated the scope.  
 
-<img width="975" height="591" alt="image" src="https://github.com/user-attachments/assets/df78c714-8777-4001-9088-f48d9392ec72" />
+<img width="975" height="576" alt="image" src="https://github.com/user-attachments/assets/bd38cbe5-103e-4629-ab58-76010340324a" />
 
 *DHCP configurations and end result*  
 
@@ -198,7 +198,7 @@ Authorized and activated the scope.
 In Server Manager, opened Local Server Properties and disable “Internet Explorer Enhanced Security Configuration.”  
 This allowed browsing the internet without continuous pop-ups prompting for confirmation.  
 
-<img width="975" height="439" alt="image" src="https://github.com/user-attachments/assets/bf0aae21-68d7-431c-ab2b-14c69cd12f61" />
+<img width="975" height="439" alt="image" src="https://github.com/user-attachments/assets/ac7c4ce9-605b-4e16-b141-dc9807534c98" />
 
 *Disabling IE Enhanced Security Configuration*  
 
@@ -210,16 +210,18 @@ Edited the names.txt file by adding my own name at the top.
 Opened PowerShell ISE as Administrator and ran:  
 
 Set-ExecutionPolicy Unrestricted
+
+
 I then opened the script, pointed to the folder location, and executed it.
 The script creates 1,000 user accounts automatically inside a new “_Users” OU, each with username format firstinitiallastname and password Password1.
 
-<img width="975" height="439" alt="image" src="https://github.com/user-attachments/assets/9469709d-a8b5-46ac-b0ad-5e29e89125c2" />
+<img width="975" height="447" alt="image" src="https://github.com/user-attachments/assets/e72fce77-a904-41fd-9daa-77470f6b48e7" />
 
 *PowerShell ISE showing script execution*
 
 <br>
 
-<img width="975" height="437" alt="image" src="https://github.com/user-attachments/assets/82c960b7-4fed-4fcc-b90f-4fa3b3eba942" />
+<img width="975" height="437" alt="image" src="https://github.com/user-attachments/assets/cabe6f7f-b666-4993-a294-97a3bce208f9" />
 
 *New OU and Users have been created*
 
@@ -229,7 +231,7 @@ The script creates 1,000 user accounts automatically inside a new “_Users” O
 Created a new VirtualBox VM named Client1, set OS type to Windows 10 (64-bit), and assign 2–4 GB RAM.
 Attached the Windows 10 ISO, and configure its single network adapter to Internal Network so it connects to the lab’s private network.
 
-<img width="975" height="437" alt="image" src="https://github.com/user-attachments/assets/1e75ac9b-84e9-4006-a6d3-87a6bf6590c9" />
+<img width="975" height="570" alt="image" src="https://github.com/user-attachments/assets/8d8c408f-1cd0-4840-b851-594b175f735f" />
 
 *Using Internal Network to get DHCP address from DC*
 
@@ -240,13 +242,13 @@ Booted the VM and installed Windows 10 Pro (not Home, since Home editions can’
 Create a local user called “User” and skip adding a Microsoft account.
 Once installed, verified the client received a DHCP address in the 172.16.0.x range by running ipconfig.
 
-<img width="975" height="437" alt="image" src="https://github.com/user-attachments/assets/5c291767-0eb1-40ad-9a8d-f9a91755b94e" />
+<img width="975" height="639" alt="image" src="https://github.com/user-attachments/assets/06a46a9c-d849-48bd-822a-4917683661fc" />
 
 *Command Prompt showing ipconfig output, DFG, DNS, DHCP from DC*
 
 <br>
 
-<img width="975" height="437" alt="image" src="https://github.com/user-attachments/assets/0897554f-23ed-4f67-8034-9cd5aad263bc" />
+<img width="975" height="510" alt="image" src="https://github.com/user-attachments/assets/53d46635-de04-4cbc-8854-03a8ebbc386f" />
 
 
 *Successful pings indicate proper config*
@@ -259,7 +261,7 @@ Renamed the machine to Client1 and join the domain mydomain.com.
 Provided domain credentials when prompted (admin or regular domain user).
 Restarted to complete the domain join.
 
-<img width="975" height="734" alt="image" src="https://github.com/user-attachments/assets/c4f6ecb9-8979-46d9-8392-54b170550271" />
+<img width="975" height="734" alt="image" src="https://github.com/user-attachments/assets/8d8337d2-02e5-4a20-9ef8-7151c2024cd0" />
 
 *Domain join confirmation*
 
@@ -272,20 +274,20 @@ Successfully signed in and loaded a profile connected to the domain.
 
 This verified that AD, DHCP, DNS, and NAT are working correctly.
 
-<img width="975" height="662" alt="image" src="https://github.com/user-attachments/assets/58352dbb-e45b-4614-8f40-a9f920d54f29" />
+<img width="975" height="662" alt="image" src="https://github.com/user-attachments/assets/45c3959d-e5ce-48c4-834f-931a13440d44" />
 
 *.\ shows PC name*
 
 <br>
 
-<img width="975" height="474" alt="image" src="https://github.com/user-attachments/assets/bee8402f-64fa-4f91-b2b0-117309a1a2e8" />
+<img width="975" height="474" alt="image" src="https://github.com/user-attachments/assets/556f09d3-9a2d-4bab-a9b7-40f6e7fb050f" />
 
 
 *Successfully able to login with created user*
 
 <br>
 
-<img width="975" height="476" alt="image" src="https://github.com/user-attachments/assets/7c26b6a9-8331-4510-b62f-4d3610a3ff89" />
+<img width="975" height="476" alt="image" src="https://github.com/user-attachments/assets/fc5de5ab-77a9-40ab-a635-ce9a95dd343a" />
 
 
 *Computer joined to domain and IP leased, able to login with any user in _USERS OU*
