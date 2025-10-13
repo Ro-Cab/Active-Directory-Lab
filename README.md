@@ -8,7 +8,7 @@ The lab begins by installing Oracle VirtualBox and downloading Windows Server 20
 <br />
 
 <h2>:small_blue_diamond: Overview</h2>
-Illustrated below, this virtual lab uses Windows Server 2019 as the domain controller (DC) with IP 172.16.0.1, acting as both the DHCP and DNS server for internal clients (Windows 10) on the 172.16.0.x subnet. The DC provides Active Directory Domain Services and DHCP (range 172.16.0.100-200), while its other network interface connects to the internet via home router DHCP, enabling NAT and internet access for internal clients
+Illustrated below, this virtual lab uses Windows Server 2019 as the domain controller (DC) with IP 172.16.0.1, acting as both the DHCP and DNS server for internal clients (Windows 10) on the 172.16.0.0/24 subnet. The DC provides Active Directory Domain Services and DHCP (range 172.16.0.100-200), while its other network interface connects to the internet via home router DHCP, enabling NAT and internet access for internal clients
 <img width="1813" height="1079" alt="image" src="https://github.com/user-attachments/assets/346829c6-6946-4ac8-aa56-92f59b033071" />
 
 <h2>:toolbox: Languages and Utilities Used </h2>
