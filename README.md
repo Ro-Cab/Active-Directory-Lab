@@ -28,7 +28,7 @@ Illustrated below, this virtual lab uses Windows Server 2019 as the domain contr
 <div align="center">
 
 ## 🧩 Step 1 - Install VirtualBox and Extension Pack  
-Started by downloading and installing Oracle VirtualBox on my host computer. Once installed, added the Extension Pack to enable USB, RDP, and advanced network support.  
+Started by downloading and installing Oracle VirtualBox on my host computer. Once installed, I added the Extension Pack to enable USB, RDP, and advanced network support.  
 
 <img width="975" height="413" alt="image" src="https://github.com/user-attachments/assets/62ca7fd5-5f17-4325-a539-3efd142dbc0a" />
 
@@ -37,7 +37,7 @@ Started by downloading and installing Oracle VirtualBox on my host computer. Onc
 ---
 
 ## 💾 Step 2 - Download Windows ISOs  
-Obtained the Windows Server 2019 ISO and Windows 10 ISO from Microsoft’s official evaluation or download site. (Note: For Windows 10, I needed to download the installation media and then choose Windows 10 -> save as ISO)  
+Obtained the Windows Server 2019 ISO and Windows 10 ISO from Microsoft’s official download site. (Note: For Windows 10, I needed to download the installation media and then choose Windows 10 -> save as ISO)  
 Stored them together in an easy-to-find folder (Desktop) so I could attach them during VM creation.  
 
 <img width="975" height="443" alt="image" src="https://github.com/user-attachments/assets/c9ad837e-3fad-4c6c-acd1-5722b534da42" />
@@ -49,7 +49,7 @@ Stored them together in an easy-to-find folder (Desktop) so I could attach them 
 ## 🖥️ Step 3 - Create the Domain Controller VM  
 Launched VirtualBox, created a new VM named DC, and used the Windows Server 2019 iso as the image. Made sure to set the OS edition to Desktop Experience or else I would not have a GUI and can only navigate using CLI.  
 
-Set the type to “Windows (64-bit)” and assign at least 2 GB of RAM. Left the rest of the settings as is and clicked Finish.  
+Set the type to “Windows (64-bit)” and assign 4 GB of RAM. Left the rest of the settings as is and clicked Finish.  
 I then right-clicked on the VM. Went to Network -> Adapter 1 & Adapter 2  
 
 **- Adapter 1:** NAT (for Internet access)  
@@ -58,12 +58,12 @@ This configuration allowed my virtual domain to connect internally while still r
 
 <img width="975" height="299" alt="image" src="https://github.com/user-attachments/assets/0d67dabf-a174-4887-87fe-a251bd69f85e" />
 
-*Setup Options to use*  
+*Setup options to use*  
 
 <br> 
 <img width="975" height="566" alt="image" src="https://github.com/user-attachments/assets/c3ef85b4-bf55-4ce3-8288-be6b992699ae" />
 
-*Enabling Adapter 2 and Setting to Internal Network*  
+*Enabling Adapter 2 and setting to Internal Network*  
 
 ---
 
@@ -99,19 +99,19 @@ Rebooted when finished for smoother operation.
 
 ## 🌐 Step 6 - Configure IP Addressing and Rename Server  
 Within the VM, opened Network Connections and identified both adapters.  
-1. Identified the adapter with the 10.0.2.15 IP address. We can tell that this one is connected to the internet.  
-2. We know that the adapter that has the 169.254.122.127 is the Internal NIC because that is an APIPA address. This means that this adapter was searching for a DHCP server to assign an address; however, it was not configured yet, so it was assigned an APIPA address. Renamed to INTERNAL so I’d know it will be used for the internal network.  
+1. The adapter with the IP address 10.0.2.15 was identified as the external NIC, as it is connected to the internet. 
+2. The adapter with the IP address 169.254.122.127 is the Internal NIC, as this is an APIPA address. This indicates the adapter was attempting to obtain an IP from a DHCP server but was not yet configured, so it automatically received an APIPA address. I renamed it to INTERNAL to clearly indicate that it will be used for the internal network.  
 
 For the Internal Network adapter, manually assigned:  
 **IP Address:** 172.16.0.1  
 **Subnet Mask:** 255.255.255.0  
 No need to assign a Default Gateway since the server will act as it.  
 **DNS: 127.0.0.1** (Assigned loopback since we installed AD DS, and the server uses itself)  
-Rename the computer to DC and restart.  
+Renamed the computer to **DC** and restarted.  
 
 <img width="875" height="647" alt="image" src="https://github.com/user-attachments/assets/4d7e0232-0dfb-4fce-a28a-c43351692a32" />
 
-*We can tell which adapter is which based on the preconfigured IP*  
+*We can tell which adapter is which based on the IP*  
 
 <br> 
 
@@ -140,7 +140,7 @@ Set the Directory Services Restore Mode password (used Password123!).
 
 <img width="975" height="686" alt="image" src="https://github.com/user-attachments/assets/4444d7d8-c7eb-491d-a44c-1996e4bc24f8" />
 
-*Promoting to Domain Controller by Clicking the yellow flag and setting the domain name*  
+*Promoting to Domain Controller by clicking the yellow flag and setting the domain name*  
 
 ---
 
@@ -150,7 +150,7 @@ Opened Active Directory Users and Computers.
 Created a new Organizational Unit called “MyAdmins.”  
 Inside it, created a user (a-rcabral) and set its password to Password123!.  
 Added this user to the Domain Admins group.  
-Logged out of the Administrator account and log back in using your new domain admin credentials.  
+Logged out of the Administrator account and logged back in using the newly created domain admin credentials.  
 
 <img width="975" height="615" alt="image" src="https://github.com/user-attachments/assets/a5162a49-5c0d-4d9d-a3bd-2abc752e57dc" />
 
@@ -188,7 +188,7 @@ Created a new scope using:
 **Start IP:** 172.16.0.100  
 **End IP:** 172.16.0.200  
 **Subnet Mask:** 255.255.255.0  
-**Set the Router Option to 172.16.0.1** (Domain Controller IP), we use this because we configured RAS / NAT on the DC so its job is to forward traffic from client to the internet.  
+**Set the Router Option to 172.16.0.1** (Domain Controller Internal NIC), we use this because we configured RAS / NAT on the DC so its job is to forward traffic from client to the internet.  
 Finally, authorized and activated the scope.  
 
 <img width="975" height="576" alt="image" src="https://github.com/user-attachments/assets/bd38cbe5-103e-4629-ab58-76010340324a" />
@@ -198,8 +198,8 @@ Finally, authorized and activated the scope.
 ---
 
 ## 🌎 Step 11 - Enable Internet Access on the Server  
-In Server Manager, opened Local Server Properties and disable “Internet Explorer Enhanced Security Configuration.”  
-This allowed browsing the internet without continuous pop-ups prompting for confirmation.  
+In Server Manager, opened Local Server Properties and disabled “Internet Explorer Enhanced Security Configuration.”  
+This allowed browsing the internet without continuous pop-ups prompting for confirmation to continue.  
 
 <img width="975" height="439" alt="image" src="https://github.com/user-attachments/assets/ac7c4ce9-605b-4e16-b141-dc9807534c98" />
 
@@ -208,19 +208,20 @@ This allowed browsing the internet without continuous pop-ups prompting for conf
 ---
 
 ## 🧠 Step 12 - Create Users with PowerShell  
-Downloaded the provided PowerShell script and extracted it to the Desktop.  
-Edited the names.txt file by adding my own name at the top.  
-Opened PowerShell ISE as Administrator and ran:  
+Downloaded a provided PowerShell script and file with a list of names (names.txt) and extracted it to the Desktop.  
+Edited the names.txt file by adding my own name at the top. (so an account with my name is created) <br>
+Opened PowerShell ISE as Administrator and ran the follwing command to allow all scripts to run:  
 
-Set-ExecutionPolicy Unrestricted
+*Set-ExecutionPolicy Unrestricted*
 
+I then opened the downloaded script, pointed to the folder location, and executed it. 
+<br>
 
-I then opened the script, pointed to the folder location, and executed it.
-The script creates 1,000 user accounts automatically inside a new “_Users” OU, each with username format firstinitiallastname and password Password1.
+*The script creates 1,000 user accounts automatically inside a new “_Users” OU, each with username format firstinitiallastname and password Password1.*
 
 <img width="975" height="447" alt="image" src="https://github.com/user-attachments/assets/e72fce77-a904-41fd-9daa-77470f6b48e7" />
 
-*PowerShell ISE showing script execution*
+*PowerShell ISE script execution*
 
 <br>
 
@@ -231,8 +232,8 @@ The script creates 1,000 user accounts automatically inside a new “_Users” O
 ---
 
 ## 🧮 Step 13 - Create the Windows 10 Client VM
-Created a new VirtualBox VM named Client1, set OS type to Windows 10 (64-bit), and assign 2–4 GB RAM.
-Attached the Windows 10 ISO, and configure its single network adapter to Internal Network so it connects to the lab’s private network.
+Created a new VirtualBox VM named Client1, set OS type to Windows 10 (64-bit), and assigned 4 GB RAM.
+Attached the Windows 10 ISO, and configured its single network adapter to Internal Network so it recieves DHCP address from Domain Controller.
 
 <img width="975" height="570" alt="image" src="https://github.com/user-attachments/assets/8d8c408f-1cd0-4840-b851-594b175f735f" />
 
@@ -242,12 +243,12 @@ Attached the Windows 10 ISO, and configure its single network adapter to Interna
 
 ## 💽 Step 14 - Install Windows 10 Pro
 Booted the VM and installed Windows 10 Pro (not Home, since Home editions can’t join a domain).
-Create a local user called “User” and skip adding a Microsoft account.
-Once installed, verified the client received a DHCP address in the 172.16.0.x range by running ipconfig.
+Created a local user called “User” and skipped adding a Microsoft account.
+Once installed, verified the client received a DHCP address in the 172.16.0.100-200 range by running ipconfig.
 
 <img width="975" height="639" alt="image" src="https://github.com/user-attachments/assets/06a46a9c-d849-48bd-822a-4917683661fc" />
 
-*Command Prompt showing ipconfig output, DFG, DNS, DHCP from DC*
+*172.16.0.100 ip address recieved from DC*
 
 <br>
 
@@ -260,7 +261,7 @@ Once installed, verified the client received a DHCP address in the 172.16.0.x ra
 
 ## 🧾 Step 15 - Rename and Join the Domain
 Opened System Properties > Computer Name > Change.
-Renamed the machine to Client1 and join the domain mydomain.com.
+Renamed the machine to Client1 and joined the domain mydomain.com (setup on DC). <br>
 Provided domain credentials when prompted (admin or regular domain user).
 Restarted to complete the domain join.
 
@@ -273,9 +274,9 @@ Restarted to complete the domain join.
 ## 🔐 Step 16 - Log In with a Domain Account
 After restart, chose Other User at login.
 Entered one of the new domain usernames (for example rcabral) with the password Password1.
-Successfully signed in and loaded a profile connected to the domain.
+Successfully signed in and loaded a profile connected to the domain and was able to connect to the internet.
 
-This verified that AD, DHCP, DNS, and NAT are working correctly.
+This verified that AD, DHCP, DNS, and NAT were working correctly.
 
 <img width="975" height="662" alt="image" src="https://github.com/user-attachments/assets/45c3959d-e5ce-48c4-834f-931a13440d44" />
 
