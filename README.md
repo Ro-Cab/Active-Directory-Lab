@@ -23,6 +23,7 @@ Illustrated below, this virtual lab uses Windows Server 2019 as the domain contr
 - <b>Windows 10</b>           - Client machine
 - <b>Windows Server 20219</b> - Domain Controller and AD services
 
+
 <h2>:clapper: Program walk-through:</h2>
 
 <div align="center">
@@ -222,6 +223,9 @@ I then opened the downloaded script, pointed to the folder location, and execute
 <img width="975" height="447" alt="image" src="https://github.com/user-attachments/assets/e72fce77-a904-41fd-9daa-77470f6b48e7" />
 
 *PowerShell ISE script execution*
+
+<p align="center"><em>Thanks to <a href="https://www.youtube.com/c/JoshMadakor">Josh Madakor</a> for providing script.</em></p>
+
 
 <br>
 
