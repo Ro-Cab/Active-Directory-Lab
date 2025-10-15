@@ -59,4 +59,4 @@ foreach ($n in $USER_FIRST_LAST_LIST) {
 }
 
 ```
-<p align="center"><em>Thanks to <a href="https://www.youtube.com/c/JoshMadakor">Josh Madakor</a> for providing script as well as a visual walkthrough.</em></p>
+<p align="center"><em>Thanks to <a href="https://www.youtube.com/c/JoshMadakor">Josh Madakor</a> for providing script.</em></p>
