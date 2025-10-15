@@ -1,0 +1,69 @@
+# ----- Edit these Variables for your own Use Case ----- #
+$PASSWORD_FOR_USERS   = "Password1"
+$USER_FIRST_LAST_LIST = Get-Content .\names.txt
+# ------------------------------------------------------ #
+
+$password = ConvertTo-SecureString $PASSWORD_FOR_USERS -AsPlainText -Force
+New-ADOrganizationalUnit -Name _USERS -ProtectedFromAccidentalDeletion $false
+
+foreach ($n in $USER_FIRST_LAST_LIST) {
+    $first = $n.Split(" ")[0].ToLower()
+    $last = $n.Split(" ")[1].ToLower()
+    $username = "$($first.Substring(0,1))$($last)".ToLower()
+    Write-Host "Creating user: $($username)" -BackgroundColor Black -ForegroundColor Cyan
+    
+    New-AdUser -AccountPassword $password `
+               -GivenName $first `
+               -Surname $last `
+               -DisplayName $username `
+               -Name $username `
+               -EmployeeID $username `
+               -PasswordNeverExpires $true `
+               -Path "ou=_USERS,$(([ADSI]`"").distinguishedName)" `
+               -Enabled $true
+}
+
+
+
+
+
+
+## Breakdown of this script
+
+Here’s a clear breakdown of what this PowerShell script does:
+
+Set up variables
+
+$PASSWORD_FOR_USERS is set to "Password1", which will be the default password for all new users.
+
+$USER_FIRST_LAST_LIST reads a text file called names.txt, where each line is expected to contain a first and last name separated by a space.
+
+Convert password to secure format
+
+$password = ConvertTo-SecureString $PASSWORD_FOR_USERS -AsPlainText -Force converts the plain-text password into a secure string required by Active Directory.
+
+Create an Organizational Unit (OU)
+
+New-ADOrganizationalUnit -Name _USERS -ProtectedFromAccidentalDeletion $false creates a new OU named _USERS in Active Directory.
+
+Loop through the list of names
+
+For each name in names.txt, the script splits it into first and last names, converts them to lowercase, and creates a username using the first letter of the first name + the full last name (e.g., John Smith → jsmith).
+
+It prints a message to the console showing the username being created.
+
+Create new AD users
+
+New-ADUser is used to create a new Active Directory user with the following attributes:
+
+Password: the secure password created earlier
+
+First name (GivenName) and last name (Surname)
+
+Display name, name, and employee ID all set to the username
+
+Password never expires
+
+OU path set to _USERS
+
+Enabled account
