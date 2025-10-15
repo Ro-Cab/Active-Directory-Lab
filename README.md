@@ -33,7 +33,7 @@ Illustrated below, this virtual lab uses Windows Server 2019 as the domain contr
 ## 🧩 Step 1 - Install VirtualBox and Extension Pack  
 Started by downloading and installing Oracle VirtualBox on my host computer. Once installed, I added the Extension Pack to enable USB, RDP, and advanced network support.  
 
-<img width="975" height="413" alt="image" src="https://github.com/user-attachments/assets/62ca7fd5-5f17-4325-a539-3efd142dbc0a" />
+<img width="2018" height="851" alt="image" src="https://github.com/user-attachments/assets/aa8aadb0-399b-43ed-969c-329c24e1c048" />
 
 *Oracle VM and Extension Pack download page*
 
@@ -43,7 +43,7 @@ Started by downloading and installing Oracle VirtualBox on my host computer. Onc
 Obtained the Windows Server 2019 ISO and Windows 10 ISO from Microsoft’s official download site. (Note: For Windows 10, I needed to download the installation media and then choose Windows 10 -> save as ISO)  
 Stored them together in an easy-to-find folder (Desktop) so I could attach them during VM creation.  
 
-<img width="975" height="443" alt="image" src="https://github.com/user-attachments/assets/c9ad837e-3fad-4c6c-acd1-5722b534da42" />
+<img width="2018" height="911" alt="image" src="https://github.com/user-attachments/assets/b5bc3230-d045-4b41-94fa-53259d2827f5" />
 
 *Download page for the Windows Server 2019 & Windows Media Creation Tool*  
 
@@ -59,12 +59,12 @@ I then right-clicked on the VM. Went to Network -> Adapter 1 & Adapter 2
 **- Adapter 2:** Internal Network (for communication with other VMs)  
 This configuration allowed my virtual domain to connect internally while still reaching the Internet.  
 
-<img width="975" height="299" alt="image" src="https://github.com/user-attachments/assets/0d67dabf-a174-4887-87fe-a251bd69f85e" />
+<img width="2069" height="620" alt="image" src="https://github.com/user-attachments/assets/26ac7bad-370f-49a1-98a2-68c9ddb0110b" />
 
 *Setup options to use*  
 
 <br> 
-<img width="975" height="566" alt="image" src="https://github.com/user-attachments/assets/c3ef85b4-bf55-4ce3-8288-be6b992699ae" />
+<img width="1943" height="1062" alt="image" src="https://github.com/user-attachments/assets/44ffaeca-8d75-4af0-adfd-34915f823149" />
 
 *Enabling Adapter 2 and setting to Internal Network*  
 
@@ -77,13 +77,13 @@ Completed the installation and set the Administrator password to Password123! (f
 
 Logged in once setup finished.  
 
-<img width="666" height="510" alt="image" src="https://github.com/user-attachments/assets/af7257ae-3acc-4feb-95b8-7b8e7aa67121" />
+<img width="1324" height="1014" alt="image" src="https://github.com/user-attachments/assets/c4c0b60d-e186-4be1-9157-de0291e85361" />
 
 *Windows Server 2019 Setup Wizard*  
 
 <br> 
 
-<img width="520" height="654" alt="image" src="https://github.com/user-attachments/assets/62e32653-2d43-4ec3-9f8e-e774b0365d23" />
+<img width="826" height="1000" alt="image" src="https://github.com/user-attachments/assets/4f5b4ac9-e4e7-4f21-a7cc-017fe02f7410" />
 
 *Click Input -> Keyboard -> Ctrl + Alt + Delete to access the login screen*  
 
@@ -94,7 +94,7 @@ After the OS booted, inserted Guest Additions from the VirtualBox “Devices” 
 Ran the AMD64 installer to improve mouse control, video scaling, and shared clipboard functionality.  
 Rebooted when finished for smoother operation.  
 
-<img width="765" height="437" alt="image" src="https://github.com/user-attachments/assets/5a1d2a1e-234e-4993-aa6d-a013a0fb67d9" />
+<img width="1221" height="690" alt="image" src="https://github.com/user-attachments/assets/d50d8119-19c1-4d64-b525-3b091ea78717" />
 
 *Installing guest additions*   
 
@@ -112,19 +112,19 @@ No need to assign a Default Gateway since the server will act as it.
 **DNS: 127.0.0.1** (Assigned loopback since we installed AD DS, and the server uses itself)  
 Renamed the computer to **DC** and restarted.  
 
-<img width="875" height="647" alt="image" src="https://github.com/user-attachments/assets/4d7e0232-0dfb-4fce-a28a-c43351692a32" />
+<img width="1398" height="1021" alt="image" src="https://github.com/user-attachments/assets/e99fcaa0-6e95-4b79-802e-bcf280aa420b" />
 
 *We can tell which adapter is which based on the IP*  
 
 <br> 
 
-<img width="556" height="700" alt="image" src="https://github.com/user-attachments/assets/058b4c59-eafe-4e39-87b8-7de2ba7e7813" />
+<img width="878" height="1054" alt="image" src="https://github.com/user-attachments/assets/4e3bf244-bc93-40a9-9ae5-dfdcb2c57a61" />
 
 *Manually setting INTERNAL adapter ip address*  
 
 <br> 
 
-<img width="975" height="706" alt="image" src="https://github.com/user-attachments/assets/8e1ca72b-b2c3-458b-881b-545fe7ba1da9" />
+<img width="1551" height="1107" alt="image" src="https://github.com/user-attachments/assets/8b8fd527-545d-42d6-872b-98d61a00d011" />
 
 *Renaming the PC*  
 
@@ -135,13 +135,13 @@ Opened Server Manager > Add Roles and Features and installed Active Directory Do
 After installation, promoted the server to a Domain Controller by adding a new forest named mydomain.com.  
 Set the Directory Services Restore Mode password (used Password123!).  
 
-<img width="773" height="450" alt="image" src="https://github.com/user-attachments/assets/af2439fb-8365-4a73-ad56-faf4dbe7aabe" />
+<img width="1536" height="875" alt="image" src="https://github.com/user-attachments/assets/9bb4ec87-63fe-450c-80c5-151be8bee943" />
 
 *Installing AD Domain Services*  
 
 <br> 
 
-<img width="975" height="686" alt="image" src="https://github.com/user-attachments/assets/4444d7d8-c7eb-491d-a44c-1996e4bc24f8" />
+<img width="1946" height="1108" alt="image" src="https://github.com/user-attachments/assets/5fa9c2af-ff0a-466d-b603-825727b9ef18" />
 
 *Promoting to Domain Controller by clicking the yellow flag and setting the domain name*  
 
@@ -155,13 +155,13 @@ Inside it, created a user (a-rcabral) and set its password to Password123!.
 Added this user to the Domain Admins group.  
 Logged out of the Administrator account and logged back in using the newly created domain admin credentials.  
 
-<img width="975" height="615" alt="image" src="https://github.com/user-attachments/assets/a5162a49-5c0d-4d9d-a3bd-2abc752e57dc" />
+<img width="1867" height="1068" alt="image" src="https://github.com/user-attachments/assets/498eebf1-2e40-47e3-ab1c-e3738f31277f" />
 
 *Newly created user and joined Domain Admins*  
 
 <br>
 
-<img width="975" height="722" alt="image" src="https://github.com/user-attachments/assets/c6c4b4ee-7dca-4e10-b03b-ccc2aa98ef5d" />
+<img width="1712" height="1136" alt="image" src="https://github.com/user-attachments/assets/be359163-3c87-4809-9dfe-28416838741e" />
 
 *Signed in using the newly created user*  
 
@@ -172,13 +172,13 @@ Installed the Remote Access role and enable Routing and Remote Access.
 Selected Network Address Translation (NAT) and chose the external (NAT) adapter as the public interface.  
 This step allows internal network clients to access the Internet through the Domain Controller.  
 
-<img width="975" height="500" alt="image" src="https://github.com/user-attachments/assets/92e8e13a-a67a-4127-b61a-eeb1f428b68e" />
+<img width="1709" height="865" alt="image" src="https://github.com/user-attachments/assets/61d3b63c-1649-4b64-b0cd-8f7693489b08" />
 
 *Installing the Remote Access role*  
 
 <br>
 
-<img width="975" height="591" alt="image" src="https://github.com/user-attachments/assets/ba443c91-ca7d-44e0-8c67-69abca310e30" />
+<img width="1718" height="1031" alt="image" src="https://github.com/user-attachments/assets/ad308938-1e92-4474-ae6e-0625c1a8f86a" />
 
 *Configuring NAT on the INTERNET adapter*  
 
@@ -194,7 +194,7 @@ Created a new scope using:
 **Set the Router Option to 172.16.0.1** (Domain Controller Internal NIC), we use this because we configured RAS / NAT on the DC so its job is to forward traffic from client to the internet.  
 Finally, authorized and activated the scope.  
 
-<img width="975" height="576" alt="image" src="https://github.com/user-attachments/assets/bd38cbe5-103e-4629-ab58-76010340324a" />
+<img width="1716" height="989" alt="image" src="https://github.com/user-attachments/assets/ff6436aa-6b38-418d-a641-507fa9ea65e8" />
 
 *DHCP configurations and end result*  
 
@@ -204,7 +204,7 @@ Finally, authorized and activated the scope.
 In Server Manager, opened Local Server Properties and disabled “Internet Explorer Enhanced Security Configuration.”  
 This allowed browsing the internet without continuous pop-ups prompting for confirmation to continue.  
 
-<img width="975" height="439" alt="image" src="https://github.com/user-attachments/assets/ac7c4ce9-605b-4e16-b141-dc9807534c98" />
+<img width="1699" height="766" alt="image" src="https://github.com/user-attachments/assets/53e18495-b72e-4347-a72c-a45dadddb488" />
 
 *Disabling IE Enhanced Security Configuration*  
 
@@ -222,13 +222,13 @@ I then opened the downloaded script, pointed to the folder location, and execute
 
 *The script creates 1,000 user accounts automatically inside a new “_Users” OU, each with username format firstinitiallastname and password Password1.*
 
-<img width="975" height="447" alt="image" src="https://github.com/user-attachments/assets/e72fce77-a904-41fd-9daa-77470f6b48e7" />
+<img width="2491" height="1093" alt="image" src="https://github.com/user-attachments/assets/629b5aa3-291b-48cb-92b1-ef88d740e52d" />
 
 *PowerShell ISE script execution*
 
 <br>
 
-<img width="975" height="437" alt="image" src="https://github.com/user-attachments/assets/cabe6f7f-b666-4993-a294-97a3bce208f9" />
+<img width="2478" height="1094" alt="image" src="https://github.com/user-attachments/assets/27952739-84e1-4685-bd65-9faaf089f678" />
 
 *New OU and Users have been created*
 
@@ -238,7 +238,7 @@ I then opened the downloaded script, pointed to the folder location, and execute
 Created a new VirtualBox VM named Client1, set OS type to Windows 10 (64-bit), and assigned 4 GB RAM.
 Attached the Windows 10 ISO, and configured its single network adapter to Internal Network so it recieves DHCP address from Domain Controller.
 
-<img width="975" height="570" alt="image" src="https://github.com/user-attachments/assets/8d8c408f-1cd0-4840-b851-594b175f735f" />
+<img width="2171" height="1111" alt="image" src="https://github.com/user-attachments/assets/77127e21-0dc4-46f5-a2aa-bb6e02f13932" />
 
 *Using Internal Network to get DHCP address from DC*
 
@@ -249,13 +249,13 @@ Booted the VM and installed Windows 10 Pro (not Home, since Home editions can’
 Created a local user called “User” and skipped adding a Microsoft account.
 Once installed, verified the client received a DHCP address in the 172.16.0.100-200 range by running ipconfig.
 
-<img width="975" height="639" alt="image" src="https://github.com/user-attachments/assets/06a46a9c-d849-48bd-822a-4917683661fc" />
+<img width="1938" height="1117" alt="image" src="https://github.com/user-attachments/assets/a699ba32-4034-4c2a-b64c-145a317b5d06" />
 
 *172.16.0.100 ip address recieved from DC*
 
 <br>
 
-<img width="975" height="510" alt="image" src="https://github.com/user-attachments/assets/53d46635-de04-4cbc-8854-03a8ebbc386f" />
+<img width="1794" height="925" alt="image" src="https://github.com/user-attachments/assets/1edbee7b-b47f-4b28-821f-d12ed43328aa" />
 
 
 *Successful pings indicate proper config*
@@ -268,7 +268,7 @@ Renamed the machine to Client1 and joined the domain mydomain.com (setup on DC).
 Provided domain credentials when prompted (admin or regular domain user).
 Restarted to complete the domain join.
 
-<img width="975" height="734" alt="image" src="https://github.com/user-attachments/assets/8d8337d2-02e5-4a20-9ef8-7151c2024cd0" />
+<img width="1393" height="1037" alt="image" src="https://github.com/user-attachments/assets/fca58e8c-7a2a-4151-ad22-d41b843d8d48" />
 
 *Domain join confirmation*
 
@@ -281,20 +281,20 @@ Successfully signed in and loaded a profile connected to the domain and was able
 
 This verified that AD, DHCP, DNS, and NAT were working correctly.
 
-<img width="975" height="662" alt="image" src="https://github.com/user-attachments/assets/45c3959d-e5ce-48c4-834f-931a13440d44" />
+<img width="1555" height="1052" alt="image" src="https://github.com/user-attachments/assets/35c27c7d-6425-4108-94cc-510066d54396" />
 
 *.\ shows PC name*
 
 <br>
 
-<img width="975" height="474" alt="image" src="https://github.com/user-attachments/assets/556f09d3-9a2d-4bab-a9b7-40f6e7fb050f" />
+<img width="1769" height="862" alt="image" src="https://github.com/user-attachments/assets/f782e5ba-7e3e-4d3b-b1df-814e2367d094" />
 
 
 *Successfully able to login with created user*
 
 <br>
 
-<img width="975" height="476" alt="image" src="https://github.com/user-attachments/assets/fc5de5ab-77a9-40ab-a635-ce9a95dd343a" />
+<img width="2406" height="1098" alt="image" src="https://github.com/user-attachments/assets/3d2ddbd0-55d6-443c-870d-e075e4f056e4" />
 
 
 *Computer joined to domain and IP leased, able to login with any user in _USERS OU*
