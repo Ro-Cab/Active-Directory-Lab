@@ -22,3 +22,40 @@ foreach ($n in $USER_FIRST_LAST_LIST) {
                -Path "ou=_USERS,$(([ADSI]`"").distinguishedName)" `
                -Enabled $true
 }
+
+
+Set up variables
+
+$PASSWORD_FOR_USERS is set to "Password1", which will be the default password for all new users.
+
+$USER_FIRST_LAST_LIST reads a text file called names.txt, where each line is expected to contain a first and last name separated by a space.
+
+Convert password to secure format
+
+$password = ConvertTo-SecureString $PASSWORD_FOR_USERS -AsPlainText -Force converts the plain-text password into a secure string required by Active Directory.
+
+Create an Organizational Unit (OU)
+
+New-ADOrganizationalUnit -Name _USERS -ProtectedFromAccidentalDeletion $false creates a new OU named _USERS in Active Directory.
+
+Loop through the list of names
+
+For each name in names.txt, the script splits it into first and last names, converts them to lowercase, and creates a username using the first letter of the first name + the full last name (e.g., John Smith → jsmith).
+
+It prints a message to the console showing the username being created.
+
+Create new AD users
+
+New-ADUser is used to create a new Active Directory user with the following attributes:
+
+Password: the secure password created earlier
+
+First name (GivenName) and last name (Surname)
+
+Display name, name, and employee ID all set to the username
+
+Password never expires
+
+OU path set to _USERS
+
+Enabled account
